@@ -18,17 +18,18 @@ class City:
 		x = 0
 		for c in self.connections:
 			#x+=c.unification*np.absolute(np.exp(complex(0,-c.power()*100000000/self.power())))
-			x+=c.unification*(c.power()/self.power())
+			#x+=c.unification*(c.power()/self.power())
+			x+=c.unification*c.power()
 		return x
 
 
 #create cities:
 cities={}
-cities[0]=City('Misu', 9, 12, 9, 1)
+cities[0]=City('Misu', 9, 12, 9, -1)
 cities[1]=City('Tripoli', 12, 9, 12, -1)
 cities[2]=City('Naf', 3, 9, 6, 1)
 cities[3]=City('Zawi', 6, 3, 3, 1)
-cities[4]=City('Zintan', 2, 6, 2, 1)
+cities[4]=City('Zintan', 2, 6, 2, -1)
 
 cities[5]=City('Bengha', 8, 8, 8, -1)
 cities[6]=City('Tubr', 6, 4, 6, 1)
@@ -36,7 +37,7 @@ cities[7]=City('Bayda', 4, 2, 6, 1)
 
 cities[8]=City('Murzu', 1, 2, 1, -1)
 cities[9]=City('Uba', 1, 2, 2, -1)
-cities[10]=City('Sab', 2, 1, 3, -1)
+cities[10]=City('Sab', 2, 1, 3, 1)
 
 #control group
 G=nx.Graph()
@@ -48,11 +49,11 @@ G.add_edges_from([(5,6),(6,8),(7,8),(8,10),(9,10)])
 
 #create cities:
 cities1={}
-cities1[0]=City('Misu', 9, 12, 9, 1)
+cities1[0]=City('Misu', 9, 12, 9, -1)
 cities1[1]=City('Tripoli', 12, 9, 12, -1)
 cities1[2]=City('Naf', 3, 9, 6, 1)
 cities1[3]=City('Zawi', 6, 3, 3, 1)
-cities1[4]=City('Zintan', 2, 6, 2, 1)
+cities1[4]=City('Zintan', 2, 6, 2, -1)
 
 cities1[5]=City('Bengha', 8, 8, 8, -1)
 cities1[6]=City('Tubr', 6, 4, 6, 1)
@@ -60,7 +61,7 @@ cities1[7]=City('Bayda', 4, 2, 6, 1)
 
 cities1[8]=City('Murzu', 1, 2, 1, -1)
 cities1[9]=City('Uba', 1, 2, 2, -1)
-cities1[10]=City('Sab', 2, 1, 3, -1)
+cities1[10]=City('Sab', 2, 1, 3, 1)
 
 #ISIS
 cities1[11]=City('ISIS',16,24,24,1)
@@ -81,9 +82,9 @@ def run_model(G, group, filename, picturename):
 		for i in range(11):
 			Idx =  G.neighbors(i)
 			connections = {group[i] for i in Idx}
-			x = np.sign(group[i].influence(connections))
-			if x != 0:
-				group[i].unification = x
+			x = group[i].influence(connections)
+			if (np.absolute(x)>= group[i].unification) and (np.sign(x)-group[i].unification != 0):
+				group[i].unification = np.sign(x)
 			uni.append(group[i].unification)
 		dynamics.append(uni)
 
@@ -101,7 +102,7 @@ def run_model(G, group, filename, picturename):
 
 
 #no isis
-run_model(G, cities,'noisis.csv','2dnoisis.png')
+run_model(G, cities,'noisis1.csv','2dnoisis1.png')
 
 #with isis
-run_model(H, cities1,'withisis.csv','2dwithisis.png')
+run_model(H, cities1,'withisis1.csv','2dwithisis1.png')
