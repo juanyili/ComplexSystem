@@ -15,6 +15,6 @@ for i in range(L):
 			mat[i,j] = 1
 		else:
 			mat[i,j] = 0
-
+#showing in two colors
 pcolor(mat)
 show()
