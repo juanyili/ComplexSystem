@@ -5,8 +5,8 @@ import numpy as np
 
 sucarray=[]
 prob=[]
-L=10
-for p in np.arange(0.4,0.98,0.001):
+L=30
+for p in np.arange(0.4,0.98,0.01):
 	prob.append(p)
 	a = False
 	while a == False:
@@ -18,8 +18,8 @@ for p in np.arange(0.4,0.98,0.001):
 	#pcolor(mat, cmap="binary")
 	#show()
 
-	success = 0 # keep track of number of successful paths
-	for i in range(500):
+	success = 0. # keep track of number of successful paths
+	for i in range(10000):
 		# choose a random cell in the top roll that is 1
 		pos = 0
 		while pos == 0:
@@ -41,12 +41,11 @@ for p in np.arange(0.4,0.98,0.001):
 			# whenever runs into a cell of 0, then terminates the run
 			if mat[x,y]==0:
 				flag = 1
-				#print x,y
 			# if the path reaches to the bottom, the success increases 1
 			if x == L-1:
-				success += 1
-	sucarray.append(success/500)
+				success += 1.
+	sucarray.append(success/10000)
 
-plot(prob,sucarray)
+plot(prob,sucarray,'bo')
 
 show()
