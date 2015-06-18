@@ -5,7 +5,7 @@ import numpy as np
 
 sucarray=[]
 prob=[]
-L=100
+L=50
 for p in np.arange(0.4,0.98,0.001):
 	prob.append(p)
 
@@ -27,7 +27,8 @@ for p in np.arange(0.4,0.98,0.001):
 		flag = 0 # while it does not reach the bottom
 		# create an array of number of cells each run has gone through
 		while flag == 0 and x<L-1:
-			if mat[x+1,y] == 1: # go down
+			downnot=np.random.choice([0, 1],  p=[0.4,0.6]) #probability of going down
+			if downnot == 1 and mat[x+1,y] == 1: # go down
 				x += 1
 				old = 0
 			else:
